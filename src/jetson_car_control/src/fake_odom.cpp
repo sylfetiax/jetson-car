@@ -39,6 +39,44 @@ public:
     timer_ = create_timer( // sim-time-aware timer (not wall timer)
       std::chrono::duration_cast<std::chrono::milliseconds>(period), // period in ms
       std::bind(&FakeOdom::on_timer, this)); // bind member function as callback
+
+    param_callback_handle_ = this->add_on_set_parameters_callback(
+      [this](const std::vector<rclcpp::Parameter> & params) {
+        rcl_interfaces::msg::SetParametersResult result;
+			  result.successful = true;
+
+        for (const auto & p : params) {
+          if (p.get_name() == "radius") {
+            if (p.get_type() != rclcpp::ParameterType::PARAMETER_DOUBLE) {
+              result.successful = false;
+              result.reason = "radius must be a double";
+              return result;
+            }
+            if (p.as_double() <= 0.0) {
+              result.successful = false;
+              result.reason = "radius must be > 0";
+              return result;
+            }
+            radius_ = p.as_double();
+            
+          } else if (p.get_name() == "speed") {
+            if (p.get_type() != rclcpp::ParameterType::PARAMETER_DOUBLE) {
+              result.successful = false;
+              result.reason = "speed must be a double";
+              return result;
+            }
+            if (p.as_double() <= 0.0) {
+              result.successful = false;
+              result.reason = "speed must be > 0";
+              return result;
+            }
+            speed_ = p.as_double();
+          }
+        }
+        return result;
+      }
+    );
+    
   }
 
 private:
@@ -102,6 +140,7 @@ private:
     tf_broadcaster_->sendTransform(odom_tf); // broadcast odom → base_link transform
   }
 
+  rclcpp::node_interfaces::OnSetParametersCallbackHandle::SharedPtr param_callback_handle_;
   rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr odom_pub_; // odometry publisher
   std::shared_ptr<tf2_ros::TransformBroadcaster> tf_broadcaster_; // dynamic transform broadcaster
   std::shared_ptr<tf2_ros::StaticTransformBroadcaster> static_broadcaster_; // static broadcaster
