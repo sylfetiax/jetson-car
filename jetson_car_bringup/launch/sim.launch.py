@@ -29,6 +29,8 @@ def generate_launch_description():
         controller_params_files=[controllers_file],
     )
 
+    bridge_config = os.path.join(pkg_bringup, 'config', 'sensors_bridge.yaml')
+
     return LaunchDescription([
         DeclareLaunchArgument('use_sim_time', default_value='true'),
         DeclareLaunchArgument('x', default_value='0'),
@@ -51,10 +53,10 @@ def generate_launch_description():
             }],
         ),
 
-        Node(    # bridges Gazebo sim clock → ROS /clock (must NOT use sim time)
+        Node(
             package='ros_gz_bridge',
             executable='parameter_bridge',
-            arguments=['/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock'],
+            parameters=[{'config_file': bridge_config}],
             output='screen',
         ),
 

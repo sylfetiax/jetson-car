@@ -17,7 +17,7 @@ setup(
         (os.path.join('share', package_name, 'worlds'),
             [f for f in glob.glob(os.path.join('worlds', '*.sdf'))]),
         (os.path.join('share', package_name, 'config'),
-            [f for f in glob.glob(os.path.join('config', '*.rviz'))]),
+            [f for f in glob.glob(os.path.join('config', '*'))]),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
