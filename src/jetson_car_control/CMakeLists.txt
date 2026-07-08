@@ -23,9 +23,12 @@ add_executable(fake_odom src/fake_odom.cpp)
 ament_target_dependencies(fake_odom
   rclcpp nav_msgs geometry_msgs tf2 tf2_ros)
 
+add_executable(drive_commander src/drive_commander.cpp)
+ament_target_dependencies(drive_commander rclcpp geometry_msgs)
+
 install(TARGETS teleop_lifecycle DESTINATION lib/${PROJECT_NAME}) # install for ros2 run
 install(DIRECTORY launch DESTINATION share/${PROJECT_NAME}) # install launch files when they exist
-install(TARGETS fake_odom DESTINATION lib/${PROJECT_NAME})
+install(TARGETS fake_odom drive_commander DESTINATION lib/${PROJECT_NAME})
 install(DIRECTORY rviz DESTINATION share/${PROJECT_NAME} OPTIONAL) 
 
 ament_package() # finalize; must be last

@@ -6,12 +6,14 @@ from launch.substitutions import Command, LaunchConfiguration
 from launch_ros.actions import Node
 from launch_ros.parameter_descriptions import ParameterValue
 from ament_index_python.packages import get_package_share_directory
+from controller_manager.launch_utils import generate_controllers_spawner_launch_description
 
 
 def generate_launch_description():
     pkg_desc = get_package_share_directory('jetson_car_description')
     pkg_bringup = get_package_share_directory('jetson_car_bringup')
     xacro_file = os.path.join(pkg_desc, 'urdf', 'jetson_car.urdf.xacro')
+    controllers_file = os.path.join(pkg_desc, 'config', 'controllers.yaml')
     robot_description = ParameterValue(
         Command(['xacro ', xacro_file]),
         value_type=str,
@@ -21,6 +23,11 @@ def generate_launch_description():
     y = LaunchConfiguration('y')
     z = LaunchConfiguration('z')
     yaw = LaunchConfiguration('yaw')
+
+    spawner_launch = generate_controllers_spawner_launch_description(
+        ['joint_state_broadcaster', 'ackermann_steering_controller'],
+        controller_params_files=[controllers_file],
+    )
 
     return LaunchDescription([
         DeclareLaunchArgument('use_sim_time', default_value='true'),
@@ -61,4 +68,4 @@ def generate_launch_description():
             ],
             output='screen',
         ),
-    ])
+    ] + list(spawner_launch.entities))

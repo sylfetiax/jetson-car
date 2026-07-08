@@ -1,0 +1,33 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 50    
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    ackermann_steering_controller:
+      type: ackermann_steering_controller/AckermannSteeringController
+
+ackermann_steering_controller:
+  ros__parameters:
+    publish_rate: 50.0
+    base_frame_id: base_link
+    odom_frame_id: odom
+    enable_odom_tf: true    # publish odom -> base_link TF
+
+    steering_joints_names:
+      - front_right_steer_joint
+      - front_left_steer_joint
+    traction_joints_names:
+      - rear_right_drive_joint
+      - rear_left_drive_joint
+
+    wheelbase: 0.11
+    traction_track_width: 0.075
+    steering_track_width: 0.075
+    traction_wheels_radius: 0.015
+
+    reference_timeout: 0.5    # stop if no command for 0.5 s
+
+    linear.x.velocity.max: 1.0
+    angular.z.velocity.max: 1.0
