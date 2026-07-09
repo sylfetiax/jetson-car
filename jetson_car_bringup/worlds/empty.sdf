@@ -1,5 +1,6 @@
 <?xml version="1.0" ?>
-<!-- Minimal ground-plane world for jetson_car sim (Jazzy: ros_gz_sim no longer ships worlds/) -->
+<!-- Minimal ground-plane world for jetson_car sim (Jazzy: ros_gz_sim no longer ships worlds/).
+     Control / teleop only — NOT recommended for VO bags (use vo_track.sdf). -->
 <sdf version="1.6">
   <world name="empty">
     <physics name="1ms" type="ignored">

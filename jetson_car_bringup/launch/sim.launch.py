@@ -37,11 +37,17 @@ def generate_launch_description():
         DeclareLaunchArgument('y', default_value='0'),
         DeclareLaunchArgument('z', default_value='0.1'),
         DeclareLaunchArgument('yaw', default_value='0'),
+        DeclareLaunchArgument(
+            'world',
+            default_value=os.path.join(pkg_bringup, 'worlds', 'vo_track.sdf'),
+            description='Gazebo world SDF — vo_track.sdf (default) or empty.sdf',
+        ),
 
-        IncludeLaunchDescription(    # starts gz sim + empty world
+        IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
                 os.path.join(pkg_bringup, 'launch', 'gz_world.launch.py')
             ),
+            launch_arguments={'world': LaunchConfiguration('world')}.items(),
         ),
 
         Node(    # publishes /tf and latched /robot_description

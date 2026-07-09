@@ -96,9 +96,9 @@ ros2 run rviz2 rviz2 \
 - [x] Fake odometry publisher + static sensor frames in tf
 - [x] URDF model (chassis, wheels, camera, IMU)
 - [x] Gazebo sim + `ros_gz` bridge
-- [ ] Ackermann `ros2_control` in simulation
-- [ ] Camera + IMU in sim, rosbag recording
-- [ ] Visual odometry + evaluation
+- [x] Ackermann `ros2_control` in simulation
+- [x] Camera + IMU in sim, rosbag recording
+- [x] Visual odometry + evaluation
 - [ ] EKF fusion (wheel/VO/IMU)
 - [ ] Motor bridge on Jetson GPIO, camera as ROS topic
 - [ ] On-robot VO, WiFi teleop, supervised driving tests

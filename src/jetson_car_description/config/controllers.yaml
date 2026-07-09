@@ -13,7 +13,7 @@ ackermann_steering_controller:
     publish_rate: 50.0
     base_frame_id: base_link
     odom_frame_id: odom
-    enable_odom_tf: true    # publish odom -> base_link TF
+    enable_odom_tf: false    # publish odom -> base_link TF
 
     steering_joints_names:
       - front_right_steer_joint
